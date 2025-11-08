@@ -1,0 +1,4 @@
+db.sqlite3
+bfwkomplett/__pycache__/
+verwaltung/__pycache__/
+verwaltung/migrations/
