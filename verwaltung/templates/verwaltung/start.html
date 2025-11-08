@@ -49,12 +49,18 @@
                             <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                         </li>
                     </ul>
-                    <form class="d-flex" id="login">
-                        {% csrf_token %}
-                        <input class="form-control me-2" type="text" placeholder="Name" id="name" />
-                        <input class="form-control me-2" type="password" placeholder="Passwort" id="password" />
-                        <button class="btn btn-outline-success" type="submit">Anmelden</button>
-                    </form>
+                    {% if user.is_authenticated %}
+                        <form class="d-flex" id="logout">
+                            <button class="btn btn-outline-success" type="submit">({{user}}) Abmelden</button>
+                        </form>
+                    {% else %}
+                        <form class="d-flex" id="login">
+                            {% csrf_token %}
+                            <input class="form-control me-2" type="text" placeholder="Name" id="name" />
+                            <input class="form-control me-2" type="password" placeholder="Passwort" id="password" />
+                            <button class="btn btn-outline-success" type="submit">Anmelden</button>
+                        </form>
+                    {% endif %}
                 </div>
         </div>
         </nav> <!-- Navigationsmenue -->
@@ -90,7 +96,6 @@
     <script>
     $(document).ready(function () {
         $('#login').submit(function (event) {
-            alert("Anmeldung");
             event.preventDefault();
             $.ajax({
                 url: "login/",
@@ -101,7 +106,23 @@
                     csrfmiddlewaretoken: '{{ csrf_token }}',
                 },
                 success: function(res) {
+                    window.location.reload();
+                },
+                error: function(err) {
 
+                },
+            })
+        });
+        $('#logout').submit(function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: "logout/",
+                method: "POST",
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                },
+                success: function(res) {
+                    window.location.reload();
                 },
                 error: function(err) {
 
