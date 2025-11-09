@@ -67,11 +67,13 @@
     </header>
     <main>
         <div class="container bg-body-tertiary ">
+            {% block content %}
             <div class="row">
                 <div class="col">
                     <h1>Gruppenverwaltung</h1>            
                 </div>
             </div>
+            {% endblock content %}
         </div>
     </main>
     <footer>
@@ -106,7 +108,13 @@
                     csrfmiddlewaretoken: '{{ csrf_token }}',
                 },
                 success: function(res) {
-                    window.location.reload();
+                    console.log(res.status);
+                    if (res.status == "success") {
+                        alert("Anmeldung erfolgreich.\nFenster wird neu geladen.");
+                        window.location.reload();
+                    } else {
+                        alert("Anmeldung gescheitert.");
+                    };
                 },
                 error: function(err) {
 
